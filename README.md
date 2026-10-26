@@ -9,6 +9,9 @@ node server.js          # http://localhost:3000   (PORT=8080 node server.js to c
 npm test                # API smoke tests
 ```
 
+### Deploying on Netlify
+Netlify serves `public/` as static files and runs the API as a Netlify Function (`netlify/functions/api.mts`, mounted at `/api/*`) that reuses the same route code as `server.js` (`lib/api.js`). Community tips are stored in Netlify Database (`db/schema.ts`; migrations in `netlify/database/migrations/` are applied automatically on deploy). Chat uses Claude through Netlify AI Gateway, so no API key is needed.
+
 ## Features
 | Area | What it does |
 |---|---|
