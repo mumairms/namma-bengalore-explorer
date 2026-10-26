@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/styles.css?v=2.3">
 <script>
   try {
     var t = localStorage.getItem('nb-theme');
@@ -39,16 +39,19 @@
       </div>
     </a>
 
-    <!-- Desktop Navigation Bar -->
+    <!-- Main Navigation Bar -->
     <nav class="nav" id="nav" aria-label="Main Navigation">
-      <a href="#/home" data-route="home">Home</a>
-      <a href="#/civic" data-route="civic">Civic</a>
-      <a href="#/explore" data-route="explore">Explore</a>
-      <a href="#/plan" data-route="plan">Planner</a>
-      <a href="#/events" data-route="events">Events</a>
-      <a href="#/kannada" data-route="kannada">Kannada</a>
-      <a href="#/community" data-route="community">Community</a>
-      <a href="#/saved" data-route="saved" class="nav-saved">Saved <span class="badge" id="savedCount" hidden>0</span></a>
+      <a href="#/home" data-route="home"><span class="nav-icon">🏠</span><span>Home</span></a>
+      <a href="#/civic" data-route="civic"><span class="nav-icon">🏛️</span><span>Civic</span></a>
+      <a href="#/explore" data-route="explore"><span class="nav-icon">🧭</span><span>Explore</span></a>
+      <a href="#/plan" data-route="plan"><span class="nav-icon">🗺️</span><span>Planner</span></a>
+      <a href="#/events" data-route="events"><span class="nav-icon">🎪</span><span>Events</span></a>
+      <a href="#/kannada" data-route="kannada"><span class="nav-icon">ಕ</span><span>Kannada</span></a>
+      <a href="#/community" data-route="community"><span class="nav-icon">💬</span><span>Community</span></a>
+      <a href="#/saved" data-route="saved" class="nav-saved"><span class="nav-icon">♥</span><span>Saved</span> <span class="badge" id="savedCount" hidden>0</span></a>
+      <button class="nav-menu-btn" data-action="open-menu" aria-label="Open Full Menu">
+        <span class="nav-icon">☰</span><span>Menu</span>
+      </button>
     </nav>
 
     <!-- Top Action Buttons -->
@@ -59,22 +62,32 @@
         <span class="pulse-text" id="pulseTime">BLR · 24°C</span>
       </div>
 
+      <!-- Quick Search Trigger -->
       <button class="search-trigger-btn" data-action="quick-search" title="Quick Search (Ctrl + K or /)" aria-label="Quick Search">
         <span class="search-icon">🔍</span>
         <span class="search-label">Search</span>
         <kbd class="kbd-shortcut">⌘K</kbd>
       </button>
 
+      <!-- Theme Switcher -->
       <button class="icon-btn theme-toggle" id="themeBtn" aria-label="Toggle dark/light mode" title="Switch Theme">
         <span class="theme-icon sun-icon">☀️</span>
         <span class="theme-icon moon-icon">🌙</span>
       </button>
 
+      <!-- Saved Icon for Mobile -->
       <a href="#/saved" class="icon-btn mobile-saved-btn" aria-label="Saved Places" title="Saved Places">
         <span>♥</span>
         <span class="badge" id="savedCountMobile" hidden>0</span>
       </a>
 
+      <!-- Menu Option Button -->
+      <button class="btn btn-menu" id="menuBtn" data-action="open-menu" aria-label="Open Navigation Menu" title="Open Complete Menu">
+        <span class="menu-hamburger" aria-hidden="true">☰</span>
+        <span class="menu-label">Menu</span>
+      </button>
+
+      <!-- Ask Namma AI Action -->
       <button class="btn btn-primary ask-pill-btn" data-action="open-chat" aria-label="Open Ask Namma AI Guide">
         <span class="sparkle-icon" aria-hidden="true">✦</span>
         <span>Ask Namma</span>
@@ -137,11 +150,166 @@
     <span>Ask</span>
   </button>
   <a href="#/explore" data-route="explore"><i>🧭</i><span>Explore</span></a>
-  <a href="#/plan" data-route="plan"><i>🗺️</i><span>Plan</span></a>
+  <button class="bottom-menu-btn" data-action="open-menu" aria-label="Open Full Menu">
+    <i>☰</i><span>Menu</span>
+  </button>
 </nav>
 
 <!-- Scrim Background Backdrop -->
 <div class="scrim" id="scrim" hidden></div>
+
+<!-- Full Navigation & Feature Hub Drawer (The Menu Option) -->
+<aside class="drawer menu-drawer" id="menuDrawer" aria-label="All City Features Menu" hidden>
+  <div class="drawer-head">
+    <div class="drawer-brand">
+      <div class="logo-box" style="width:34px;height:34px"><span class="logo-letter" style="font-size:1.25rem">ನ</span></div>
+      <div>
+        <b style="font-size:1.1rem">Namma Menu</b>
+        <small class="chat-sub">City Guide, Services &amp; Tools</small>
+      </div>
+    </div>
+    <button class="icon-btn" data-action="close-menu" aria-label="Close Menu">✕</button>
+  </div>
+
+  <div class="menu-search-wrap">
+    <input id="menuSearchInput" placeholder="Quick find: dosas, BESCOM, lakes, complaints, quiz…" autocomplete="off" aria-label="Search within menu">
+  </div>
+
+  <div class="menu-body" id="menuBody">
+    <!-- Section 1: Explore & Places -->
+    <div class="menu-section" data-section="explore">
+      <div class="menu-section-header">
+        <span class="menu-sec-icon">🧭</span>
+        <h4>Explore Bengaluru</h4>
+      </div>
+      <div class="menu-links-grid">
+        <a href="#/explore" class="menu-card" data-action="menu-link" data-tags="explore all tourist sightseeing spots places map 44 attractions">
+          <div class="menu-card-top"><span class="menu-ic">✨</span><b>All 44 Places</b></div>
+          <p>Heritage, lakes, food &amp; startups</p>
+        </a>
+        <a href="#/explore/food" class="menu-card" data-action="menu-link" data-tags="food breakfast lunch dinner benne dosa filter coffee biryani darshini meals sweets snacks">
+          <div class="menu-card-top"><span class="menu-ic">🍛</span><b>Food &amp; Eateries</b></div>
+          <p>Benne dosa, filter coffee &amp; biryani</p>
+        </a>
+        <a href="#/explore/heritage" class="menu-card" data-action="menu-link" data-tags="heritage palace history monument architecture tipu sultan wodeyar fort temples lalbagh">
+          <div class="menu-card-top"><span class="menu-ic">🏛️</span><b>Heritage &amp; Palaces</b></div>
+          <p>Wodeyars, temples &amp; Lalbagh rock</p>
+        </a>
+        <a href="#/explore/lake" class="menu-card" data-action="menu-link" data-tags="lake water walking jogging nature birds boating ulsoor sankey hebbal jakkur water bodies">
+          <div class="menu-card-top"><span class="menu-ic">🦆</span><b>Lakes &amp; Walks</b></div>
+          <p>Ulsoor, Sankey, Hebbal &amp; Jakkur lakes</p>
+        </a>
+        <a href="#/explore/market" class="menu-card" data-action="menu-link" data-tags="market shopping flowers spices clothes chickpet kr market gandhi bazaar commercial street bazaar">
+          <div class="menu-card-top"><span class="menu-ic">🌸</span><b>Bustling Markets</b></div>
+          <p>KR Market, Chickpet &amp; Gandhi Bazaar</p>
+        </a>
+        <a href="#/explore/startup" class="menu-card" data-action="menu-link" data-tags="startup tech it parks koramangala hsr layout whitefield coworking iisc innovation founders vc">
+          <div class="menu-card-top"><span class="menu-ic">🚀</span><b>Startup Hubs</b></div>
+          <p>Koramangala, HSR, IISc &amp; Whitefield</p>
+        </a>
+        <a href="#/explore/culture" class="menu-card" data-action="menu-link" data-tags="culture theatre drama art dance ranga shankara ngma chowdiah music live shows auditorium">
+          <div class="menu-card-top"><span class="menu-ic">🎭</span><b>Culture &amp; Stages</b></div>
+          <p>Ranga Shankara, NGMA &amp; Chowdiah</p>
+        </a>
+        <a href="#/explore/nightlife" class="menu-card" data-action="menu-link" data-tags="nightlife pubs craft beer breweries microbrewery indiranagar church street mg road drinks evening">
+          <div class="menu-card-top"><span class="menu-ic">🍻</span><b>Nightlife &amp; Brews</b></div>
+          <p>Church Street, Indiranagar pubs</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Section 2: Civic Services & Governance -->
+    <div class="menu-section" data-section="civic">
+      <div class="menu-section-header">
+        <span class="menu-sec-icon">🏛️</span>
+        <h4>Civic Compass &amp; Services</h4>
+      </div>
+      <div class="menu-links-grid">
+        <a href="#/civic" class="menu-card" data-action="menu-link" data-tags="civic complaint problem triage pothole roads garbage water electricity power bescom bwssb street light khata tax drainage sewage flooding dog tree">
+          <div class="menu-card-top"><span class="menu-ic">🕳️</span><b>Problem Triage</b></div>
+          <p>Resolution steps for 27 civic issues</p>
+        </a>
+        <a href="#/civic" class="menu-card" data-action="menu-link" data-tags="city corporation bbmp ward central south north east west jurisdiction engineer marshal gba zone">
+          <div class="menu-card-top"><span class="menu-ic">📍</span><b>5 City Corporations</b></div>
+          <p>Bengaluru Central, South, North, East, West</p>
+        </a>
+        <a href="#/civic" class="menu-card" data-action="menu-link" data-tags="complaint letter draft generator write bbmp sahaya petition formal application format sample email">
+          <div class="menu-card-top"><span class="menu-ic">✍️</span><b>Complaint Drafter</b></div>
+          <p>Official letter generator for BBMP/Sahaya</p>
+        </a>
+        <a href="#/civic" class="menu-card" data-action="menu-link" data-tags="agency directory helpline bescom power electricity bwssb water supply sewerage rto police traffic gba bbmp bmrcl metro bmtc bus contact numbers">
+          <div class="menu-card-top"><span class="menu-ic">🏢</span><b>Agency Directory</b></div>
+          <p>GBA, BESCOM, BWSSB, RTO &amp; Police</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Section 3: Planning & Festivals -->
+    <div class="menu-section" data-section="plan">
+      <div class="menu-section-header">
+        <span class="menu-sec-icon">🗺️</span>
+        <h4>Itinerary Planner &amp; Events</h4>
+      </div>
+      <div class="menu-links-grid">
+        <a href="#/plan" class="menu-card" data-action="menu-link" data-tags="plan itinerary route commute day trip schedule planner travel morning evening traffic route">
+          <div class="menu-card-top"><span class="menu-ic">🗺️</span><b>Smart Day Planner</b></div>
+          <p>Traffic-aware routes &amp; time-of-day fit</p>
+        </a>
+        <a href="#/events" class="menu-card" data-action="menu-link" data-tags="events festival calendar karaga kadalekai parishe flower show music concert culture dates holidays">
+          <div class="menu-card-top"><span class="menu-ic">🎪</span><b>Festival Calendar</b></div>
+          <p>Karaga, Kadalekai, Flower Shows</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Section 4: Culture & Community -->
+    <div class="menu-section" data-section="community">
+      <div class="menu-section-header">
+        <span class="menu-sec-icon">ಕ</span>
+        <h4>Kannada, Community &amp; Saved</h4>
+      </div>
+      <div class="menu-links-grid">
+        <a href="#/kannada" class="menu-card" data-action="menu-link" data-tags="kannada language speak learn phrase words native pronunciation audio speech swalpa adjust maadi conversation">
+          <div class="menu-card-top"><span class="menu-ic">🔊</span><b>Kannada Phrasebook</b></div>
+          <p>Native audio speech &amp; pronunciation</p>
+        </a>
+        <a href="#/kannada" class="menu-card" data-action="menu-link" data-tags="quiz test practice flashcard kannada challenge game score question">
+          <div class="menu-card-top"><span class="menu-ic">🎯</span><b>Kannada Quiz</b></div>
+          <p>Interactive flashcard challenge</p>
+        </a>
+        <a href="#/community" class="menu-card" data-action="menu-link" data-tags="community tips local secrets recommendations hidden gems reviews upvote advice neighbourhood">
+          <div class="menu-card-top"><span class="menu-ic">💬</span><b>Community Tips</b></div>
+          <p>Neighbourhood secrets &amp; upvoting</p>
+        </a>
+        <a href="#/saved" class="menu-card" data-action="menu-link" data-tags="saved bookmarks favorites shortlist starred places wishlist bookmarks">
+          <div class="menu-card-top"><span class="menu-ic">♥</span><b>Saved Bookmarks</b></div>
+          <p id="menuSavedLabel">View your shortlisted spots</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Emergency Helplines Direct Dial Strip -->
+    <div class="menu-section" data-section="emergency">
+      <div class="menu-section-header">
+        <span class="menu-sec-icon">🚨</span>
+        <h4>Emergency Quick-Dials</h4>
+      </div>
+      <div class="menu-sos-strip">
+        <a href="tel:112" class="sos-dial-btn red"><span>🚨 112</span><small>All Emergencies</small></a>
+        <a href="tel:1912" class="sos-dial-btn orange"><span>⚡ 1912</span><small>BESCOM Power</small></a>
+        <a href="tel:1916" class="sos-dial-btn blue"><span>🚰 1916</span><small>BWSSB Water</small></a>
+        <a href="tel:1533" class="sos-dial-btn gray"><span>🏙️ 1533</span><small>Sahaya Civic</small></a>
+        <a href="tel:1930" class="sos-dial-btn purple"><span>💳 1930</span><small>Cyber Fraud</small></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-footer">
+    <button class="btn btn-primary" data-action="open-chat" style="width:100%;justify-content:center">
+      ✦ Open Ask Namma AI Assistant
+    </button>
+  </div>
+</aside>
 
 <!-- AI Chat Drawer -->
 <aside class="drawer" id="chat" aria-label="Ask Namma AI Assistant" hidden>
@@ -186,6 +354,6 @@
 <div class="toast" id="toast" role="status" hidden></div>
 
 <!-- Core Client App -->
-<script src="/js/app.js"></script>
+<script src="/js/app.js?v=2.3"></script>
 </body>
 </html>

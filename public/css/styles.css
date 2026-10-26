@@ -273,36 +273,84 @@ button, input, select, textarea {
   letter-spacing: 0.02em;
 }
 
-/* Desktop Navigation (No Cut-off, No Truncation) */
+/* ==========================================================================
+   Main Navigation Bar (Desktop & Responsive Strip)
+   ========================================================================== */
 .nav {
   display: flex;
   align-items: center;
   gap: 3px;
-  overflow: visible;
+  background: var(--bg-subtle);
+  border: 1.5px solid var(--line);
+  padding: 4px 6px;
+  border-radius: var(--r-full);
+  box-shadow: var(--shadow-xs);
   flex-shrink: 0;
+  transition: all var(--t-fast);
 }
 
-.nav a {
+.nav a,
+.nav .nav-menu-btn {
   display: inline-flex;
   align-items: center;
-  padding: 7px 12px;
+  gap: 6px;
+  padding: 6px 13px;
   border-radius: var(--r-full);
   color: var(--ink2);
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 600;
   white-space: nowrap;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
   transition: all var(--t-fast);
+  line-height: 1.2;
 }
-.nav a:hover {
-  background: var(--bg-subtle);
+
+.nav a:hover,
+.nav .nav-menu-btn:hover {
+  background: var(--card);
   color: var(--ink);
   text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
+
 .nav a.on {
-  background: var(--brand-soft);
+  background: var(--card);
   color: var(--brand);
-  border: 1px solid var(--brand-border);
+  font-weight: 700;
+  border-color: var(--brand-border);
+  box-shadow: 0 2px 8px var(--brand-glow);
+}
+
+.nav .nav-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.nav .nav-menu-btn {
+  color: var(--ink);
+  font-weight: 700;
+}
+.nav .nav-menu-btn:hover {
+  color: var(--brand);
+  border-color: var(--brand-border);
+}
+
+:root[data-theme='dark'] .nav {
+  background: #1e1b18;
+  border-color: #38332c;
+}
+:root[data-theme='dark'] .nav a:hover,
+:root[data-theme='dark'] .nav .nav-menu-btn:hover {
+  background: #2a2520;
+  color: #fff;
+}
+:root[data-theme='dark'] .nav a.on {
+  background: #2d1810;
+  color: #fb923c;
+  border-color: rgba(224, 83, 28, 0.4);
 }
 
 .nav-saved {
@@ -316,7 +364,7 @@ button, input, select, textarea {
   font-weight: 700;
   border-radius: var(--r-full);
   padding: 1px 6px;
-  margin-left: 4px;
+  margin-left: 2px;
   display: inline-block;
   line-height: 1.3;
 }
@@ -1859,6 +1907,220 @@ details.ag ul {
   border-radius: var(--r-full);
 }
 
+/* Hide mobile-only elements on desktop by default */
+.bottom {
+  display: none;
+}
+.mobile-saved-btn {
+  display: none;
+}
+
+/* ==========================================================================
+   Full Navigation & Feature Menu Drawer
+   ========================================================================== */
+
+.btn-menu {
+  background: var(--bg-subtle);
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: all var(--t-fast);
+}
+.btn-menu:hover {
+  background: var(--card);
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: translateY(-1px);
+}
+.menu-hamburger {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.menu-drawer {
+  width: min(560px, 100%) !important;
+}
+
+.menu-search-wrap {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+}
+.menu-search-wrap input {
+  padding: 10px 16px;
+  border-radius: var(--r-full);
+  font-size: 0.9rem;
+}
+
+.menu-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line-subtle);
+}
+.menu-section-header h4 {
+  font-family: var(--font);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+}
+.menu-sec-icon {
+  font-size: 1.15rem;
+}
+
+.menu-links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.menu-card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: all var(--t-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.menu-card:hover {
+  border-color: var(--brand);
+  background: var(--bg-subtle);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xs);
+  text-decoration: none;
+}
+
+.menu-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+.menu-card-top b {
+  font-weight: 700;
+  color: var(--ink);
+}
+.menu-card p {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink2);
+  line-height: 1.35;
+}
+.menu-ic {
+  font-size: 1.1rem;
+}
+
+.menu-sos-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.sos-dial-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  transition: all var(--t-fast);
+}
+.sos-dial-btn small {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.sos-dial-btn:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.sos-dial-btn.red { border-color: rgba(220, 38, 38, 0.4); background: #fef2f2; color: #b91c1c; }
+.sos-dial-btn.orange { border-color: rgba(234, 88, 12, 0.4); background: #fff7ed; color: #c2410c; }
+.sos-dial-btn.blue { border-color: rgba(2, 132, 199, 0.4); background: #f0f9ff; color: #0369a1; }
+.sos-dial-btn.gray { border-color: var(--line); background: var(--bg-subtle); color: var(--ink); }
+.sos-dial-btn.purple { border-color: rgba(124, 58, 237, 0.4); background: #faf5ff; color: #6d28d9; }
+
+:root[data-theme='dark'] .sos-dial-btn.red { background: #350808; color: #fca5a5; }
+:root[data-theme='dark'] .sos-dial-btn.orange { background: #381504; color: #fdba74; }
+:root[data-theme='dark'] .sos-dial-btn.blue { background: #062035; color: #7dd3fc; }
+:root[data-theme='dark'] .sos-dial-btn.gray { background: var(--bg-subtle); color: var(--ink); }
+:root[data-theme='dark'] .sos-dial-btn.purple { background: #26093d; color: #d8b4fe; }
+
+.menu-footer {
+  padding: 14px 18px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--card);
+}
+
+/* Civic Compass Issue Filtering Tabs */
+.issue-cat-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin: 10px 0 12px;
+  scrollbar-width: none;
+}
+.issue-cat-tabs::-webkit-scrollbar { display: none; }
+
+.issue-cat-btn {
+  flex: none;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  padding: 6px 12px;
+  border-radius: var(--r-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.issue-cat-btn:hover {
+  border-color: var(--brand);
+  color: var(--ink);
+}
+.issue-cat-btn.on {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-ink);
+  box-shadow: 0 2px 8px var(--brand-glow);
+}
+
 /* ==========================================================================
    Modals & Toast
    ========================================================================== */
@@ -2048,11 +2310,36 @@ details.ag ul {
    Responsive Breakpoints: Desktop, Tablet, Mobile
    ========================================================================== */
 
-/* Tablet & Intermediate Desktop (Under 1160px) */
+/* Tablet & Responsive Navigation (Under 1160px) */
 @media (max-width: 1160px) {
-  .nav a {
-    padding: 6px 9px;
-    font-size: 0.84rem;
+  .top-in {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding: 8px 16px 8px;
+  }
+  .brand {
+    order: 1;
+  }
+  .top-actions {
+    order: 2;
+  }
+  .nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 3px 5px;
+    justify-content: flex-start;
+  }
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+  .nav a,
+  .nav .nav-menu-btn {
+    flex-shrink: 0;
+    padding: 5px 11px;
+    font-size: 0.82rem;
   }
   .city-pulse {
     display: none;
@@ -2081,16 +2368,16 @@ details.ag ul {
 
   /* Header on Mobile */
   .top-in {
-    padding: 8px 16px;
-  }
-  .nav {
-    display: none;
+    padding: 8px 14px 6px;
   }
   .search-trigger-btn .search-label,
   .search-trigger-btn .kbd-shortcut {
     display: none;
   }
   .ask-pill-btn {
+    display: none;
+  }
+  .btn-menu {
     display: none;
   }
   .mobile-saved-btn {

@@ -94,6 +94,10 @@
       mb.hidden = !S.saved.size;
       mb.textContent = S.saved.size;
     }
+    const ml = $('#menuSavedLabel');
+    if (ml) {
+      ml.textContent = S.saved.size ? `${S.saved.size} place${S.saved.size === 1 ? '' : 's'} saved` : 'View your shortlisted spots';
+    }
   };
 
   const placeById = (id) => S.places.find((p) => p.id === id);
@@ -603,15 +607,19 @@
           </div>
 
           <div style="margin-top:20px">
-            <label>Or select a common issue:</label>
-            <div class="issue-grid">
-              ${S.issues.map((i) => `
-                <button class="issue-btn" data-action="issue" data-id="${esc(i.id)}">
-                  <span>${i.icon}</span>
-                  ${esc(i.title)}
-                </button>
-              `).join('')}
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <label style="margin:0">Common Civic Issues (Categorized):</label>
             </div>
+            <div class="issue-cat-tabs" id="issueTabs">
+              <button class="issue-cat-btn on" data-icat="all">All (27)</button>
+              <button class="issue-cat-btn" data-icat="road">🛣️ Roads &amp; Traffic</button>
+              <button class="issue-cat-btn" data-icat="bescom">⚡ BESCOM Power</button>
+              <button class="issue-cat-btn" data-icat="bwssb">🚰 BWSSB Water</button>
+              <button class="issue-cat-btn" data-icat="gba">🗑️ Sanitation &amp; Waste</button>
+              <button class="issue-cat-btn" data-icat="docs">📄 Khata &amp; Permits</button>
+            </div>
+            <input type="search" id="issueFilterInput" placeholder="Quick filter issues (e.g. pothole, meter, dog, garbage)…" style="padding:9px 14px;font-size:0.86rem;margin-bottom:10px">
+            <div class="issue-grid" id="issueGrid"></div>
           </div>
         </div>
       </div>
@@ -714,6 +722,55 @@
         out.innerHTML = `<div class="card warn">${esc(e.message)}</div>`;
       }
     };
+
+    let curIcat = 'all', curIsearch = '';
+    const getIssueCat = (i) => {
+      if (i.agency === 'bescom') return 'bescom';
+      if (i.agency === 'bwssb') return 'bwssb';
+      if (i.agency === 'rto' || i.agency === 'btp' || ['pothole', 'streetlight', 'flooding'].includes(i.id)) return 'road';
+      if (['property-tax', 'certificate', 'trade-licence'].includes(i.id)) return 'docs';
+      return 'gba';
+    };
+
+    const renderIssues = () => {
+      const q = curIsearch.toLowerCase().trim();
+      const filtered = S.issues.filter((i) => {
+        const catMatch = curIcat === 'all' || getIssueCat(i) === curIcat;
+        const textMatch = !q || i.title.toLowerCase().includes(q) || (i.keywords && i.keywords.some((k) => k.toLowerCase().includes(q)));
+        return catMatch && textMatch;
+      });
+      const grid = $('#issueGrid');
+      if (grid) {
+        grid.innerHTML = filtered.length
+          ? filtered.map((i) => `
+            <button class="issue-btn" data-action="issue" data-id="${esc(i.id)}">
+              <span>${i.icon}</span>
+              ${esc(i.title)}
+            </button>
+          `).join('')
+          : '<p class="muted small" style="grid-column:1/-1;padding:12px">No issues match that filter.</p>';
+      }
+    };
+    renderIssues();
+
+    const tabs = $('#issueTabs');
+    if (tabs) {
+      tabs.onclick = (e) => {
+        const b = e.target.closest('[data-icat]');
+        if (!b) return;
+        curIcat = b.dataset.icat;
+        $$('#issueTabs .issue-cat-btn').forEach((x) => x.classList.toggle('on', x === b));
+        renderIssues();
+      };
+    }
+
+    const ifilter = $('#issueFilterInput');
+    if (ifilter) {
+      ifilter.addEventListener('input', debounce((e) => {
+        curIsearch = e.target.value;
+        renderIssues();
+      }));
+    }
 
     if (arg && arg.startsWith('agency-')) {
       const d = $('#' + arg);
@@ -1563,7 +1620,46 @@
 
   function closeChat() {
     $('#chat').hidden = true;
-    $('#scrim').hidden = true;
+    if ($('#menuDrawer') && $('#menuDrawer').hidden) {
+      $('#scrim').hidden = true;
+    }
+  }
+
+  function openMenu() {
+    closeChat();
+    const md = $('#menuDrawer');
+    if (!md) return;
+    md.hidden = false;
+    $('#scrim').hidden = false;
+    const inp = $('#menuSearchInput');
+    if (inp) {
+      inp.value = '';
+      filterMenu('');
+      setTimeout(() => inp.focus(), 60);
+    }
+  }
+
+  function closeMenu() {
+    const md = $('#menuDrawer');
+    if (md) md.hidden = true;
+    if ($('#chat') && $('#chat').hidden) {
+      $('#scrim').hidden = true;
+    }
+  }
+
+  function filterMenu(query) {
+    const q = query.toLowerCase().trim();
+    $$('.menu-card').forEach((card) => {
+      const tags = (card.dataset.tags || '').toLowerCase();
+      const txt = card.textContent.toLowerCase();
+      const match = !q || txt.includes(q) || tags.includes(q);
+      card.hidden = !match;
+    });
+    $$('.menu-section').forEach((sec) => {
+      if (sec.dataset.section === 'emergency') return;
+      const visible = sec.querySelectorAll('.menu-card:not([hidden])');
+      sec.hidden = visible.length === 0;
+    });
   }
 
   async function sendChat(text) {
@@ -1597,6 +1693,15 @@
     const d = t.dataset;
 
     switch (d.action) {
+      case 'open-menu':
+        openMenu();
+        break;
+      case 'close-menu':
+        closeMenu();
+        break;
+      case 'menu-link':
+        closeMenu();
+        break;
       case 'open-chat':
         openChat();
         break;
@@ -1707,7 +1812,10 @@
   });
 
   // Modal & Drawer Dismissals
-  $('#scrim').addEventListener('click', closeChat);
+  $('#scrim').addEventListener('click', () => {
+    closeChat();
+    closeMenu();
+  });
   $('#modal').addEventListener('click', (e) => {
     if (e.target.id === 'modal') closeModal();
   });
@@ -1717,6 +1825,7 @@
     if (e.key === 'Escape') {
       closeModal();
       closeChat();
+      closeMenu();
     }
     // Ctrl + K or Cmd + K or / to search / ask
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -1724,6 +1833,12 @@
       openChat();
     }
   });
+
+  // Live Menu Search Filtering
+  const mSearch = $('#menuSearchInput');
+  if (mSearch) {
+    mSearch.addEventListener('input', debounce((e) => filterMenu(e.target.value), 80));
+  }
 
   // Chat Form Submission
   $('#chatForm').addEventListener('submit', (e) => {
