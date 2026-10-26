@@ -1,0 +1,9 @@
+{
+  "name": "namma-bengaluru",
+  "version": "1.0.0",
+  "description": "Namma Bengaluru - an AI-assisted guide to civic services, food, heritage, events and startups in Bengaluru",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "test": "node test/smoke.js" },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}

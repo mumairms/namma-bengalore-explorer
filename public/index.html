@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Namma Bengaluru · ನಮ್ಮ ಬೆಂಗಳೂರು — Your City, Decoded</title>
+<meta name="description" content="AI-assisted civic compass, heritage eateries, lakes, day itineraries, events calendar, and community tips for Bengaluru.">
+<meta name="theme-color" content="#d9480f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script>
+  try {
+    var t = localStorage.getItem('nb-theme');
+    if (!t) {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.dataset.theme = t;
+  } catch(e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#view">Skip to main content</a>
+
+<!-- Global Header -->
+<header class="top" id="topNav">
+  <div class="top-in">
+    <!-- Brand -->
+    <a class="brand" href="#/home" aria-label="Namma Bengaluru Homepage">
+      <span class="logo-box" aria-hidden="true">
+        <span class="logo-letter">ನ</span>
+      </span>
+      <div class="brand-text">
+        <span class="brand-title">Namma <b>Bengaluru</b></span>
+        <span class="brand-kn">ನಮ್ಮ ಬೆಂಗಳೂರು</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Bar -->
+    <nav class="nav" id="nav" aria-label="Main Navigation">
+      <a href="#/home" data-route="home">Home</a>
+      <a href="#/civic" data-route="civic">Civic</a>
+      <a href="#/explore" data-route="explore">Explore</a>
+      <a href="#/plan" data-route="plan">Planner</a>
+      <a href="#/events" data-route="events">Events</a>
+      <a href="#/kannada" data-route="kannada">Kannada</a>
+      <a href="#/community" data-route="community">Community</a>
+      <a href="#/saved" data-route="saved" class="nav-saved">Saved <span class="badge" id="savedCount" hidden>0</span></a>
+    </nav>
+
+    <!-- Top Action Buttons -->
+    <div class="top-actions">
+      <!-- Live City Pulse Badge -->
+      <div class="city-pulse" id="cityPulse" title="Live Bengaluru local time and weather">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span class="pulse-text" id="pulseTime">BLR · 24°C</span>
+      </div>
+
+      <button class="search-trigger-btn" data-action="quick-search" title="Quick Search (Ctrl + K or /)" aria-label="Quick Search">
+        <span class="search-icon">🔍</span>
+        <span class="search-label">Search</span>
+        <kbd class="kbd-shortcut">⌘K</kbd>
+      </button>
+
+      <button class="icon-btn theme-toggle" id="themeBtn" aria-label="Toggle dark/light mode" title="Switch Theme">
+        <span class="theme-icon sun-icon">☀️</span>
+        <span class="theme-icon moon-icon">🌙</span>
+      </button>
+
+      <a href="#/saved" class="icon-btn mobile-saved-btn" aria-label="Saved Places" title="Saved Places">
+        <span>♥</span>
+        <span class="badge" id="savedCountMobile" hidden>0</span>
+      </a>
+
+      <button class="btn btn-primary ask-pill-btn" data-action="open-chat" aria-label="Open Ask Namma AI Guide">
+        <span class="sparkle-icon" aria-hidden="true">✦</span>
+        <span>Ask Namma</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content View -->
+<main id="view" tabindex="-1" aria-live="polite"></main>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="foot-in">
+    <div class="foot-brand">
+      <div class="brand">
+        <span class="logo-box" aria-hidden="true"><span class="logo-letter">ನ</span></span>
+        <div class="brand-text">
+          <span class="brand-title">Namma <b>Bengaluru</b></span>
+          <span class="brand-kn">ನಮ್ಮ ಬೆಂಗಳೂರು — Decoded for citizens &amp; explorers</span>
+        </div>
+      </div>
+      <p class="foot-desc">
+        A zero-dependency, open guide to navigate Bengaluru's civic offices, heritage eateries, pristine lakes, thriving markets, and deep-tech hubs.
+      </p>
+    </div>
+
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#/civic">Civic Compass &amp; Helplines</a></li>
+          <li><a href="#/explore">Explore 44+ Places</a></li>
+          <li><a href="#/plan">Smart Day Planner</a></li>
+          <li><a href="#/events">Bengaluru Festivals &amp; Calendar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>City Resources</h4>
+        <ul>
+          <li><a href="#/kannada">Kannada Phrases &amp; Quiz</a></li>
+          <li><a href="#/community">Community Tips &amp; Upvotes</a></li>
+          <li><a href="#/saved">Saved Bookmarks</a></li>
+          <li><a href="tel:112" class="emergency-link">🚨 Emergency: 112</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2026 Namma Bengaluru. Civic jurisdiction and helpline data change periodically; always verify with official BBMP / GBA, BESCOM, or BWSSB portals.</p>
+  </div>
+</footer>
+
+<!-- Bottom Mobile Navigation Bar -->
+<nav class="bottom" aria-label="Mobile Navigation">
+  <a href="#/home" data-route="home"><i>⌂</i><span>Home</span></a>
+  <a href="#/civic" data-route="civic"><i>🏛️</i><span>Civic</span></a>
+  <button class="bottom-ask-fab" data-action="open-chat" aria-label="Ask Namma AI">
+    <span class="fab-sparkle">✦</span>
+    <span>Ask</span>
+  </button>
+  <a href="#/explore" data-route="explore"><i>🧭</i><span>Explore</span></a>
+  <a href="#/plan" data-route="plan"><i>🗺️</i><span>Plan</span></a>
+</nav>
+
+<!-- Scrim Background Backdrop -->
+<div class="scrim" id="scrim" hidden></div>
+
+<!-- AI Chat Drawer -->
+<aside class="drawer" id="chat" aria-label="Ask Namma AI Assistant" hidden>
+  <div class="drawer-head">
+    <div class="drawer-title-group">
+      <div class="drawer-brand">
+        <span class="sparkle-badge">✦</span>
+        <div>
+          <b>Ask Namma</b>
+          <small id="chatMode" class="chat-sub">Bengaluru Local Guide</small>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-actions">
+      <button class="icon-btn-sm" id="clearChatBtn" title="Clear Chat History" aria-label="Clear chat">🗑️</button>
+      <button class="icon-btn" data-action="close-chat" aria-label="Close Assistant">✕</button>
+    </div>
+  </div>
+
+  <div class="chat-log" id="chatLog" role="log" aria-live="polite"></div>
+
+  <div class="chat-chips-wrap">
+    <div class="chat-chips-label">Quick suggestions:</div>
+    <div class="chips" id="chatChips"></div>
+  </div>
+
+  <form class="chat-form" id="chatForm">
+    <input id="chatInput" placeholder="Ask about civic issues, places, kaapi spots…" autocomplete="off" maxlength="400" aria-label="Your question for Namma Bengaluru">
+    <button class="btn btn-primary chat-send-btn" type="submit" aria-label="Send message">
+      <span>Send</span>
+      <span class="send-arrow">→</span>
+    </button>
+  </form>
+</aside>
+
+<!-- Global Modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" hidden>
+  <div class="modal-card" id="modalCard"></div>
+</div>
+
+<!-- Floating Toast Notification -->
+<div class="toast" id="toast" role="status" hidden></div>
+
+<!-- Core Client App -->
+<script src="/js/app.js"></script>
+</body>
+</html>
